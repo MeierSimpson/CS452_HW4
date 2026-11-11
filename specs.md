@@ -60,7 +60,7 @@ How to Proceed
 
     $ DISPLAY= ./wam
 
-2.  Modify the program to use your queue, from the earlier homework assignment.
+2.  Modify the program to use your queue (which can be found in the hw1 folder of the project repo), from the earlier homework assignment.
     You should only need to change main.c. Functions produce and consume should
     only communicate through a queue.
 
