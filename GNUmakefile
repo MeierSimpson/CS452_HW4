@@ -1,8 +1,29 @@
 prog=wam
 
-ccflags=-pthread
-ldflags=-pthread -lX11 -lfltk
+CC=gcc
+CXX=g++
+CPPFLAGS=
+CFLAGS=-pthread -MMD -MP
+CXXFLAGS=-pthread -MMD -MP
+LDFLAGS=-pthread
+LDLIBS=-lX11 -lfltk
 
-ld=g++
+objects=main.o lawn.o mole.o lawnimp.o
 
-include ../GNUmakefile
+all: $(prog)
+
+$(prog): $(objects)
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+
+%.o: %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
+
+%.o: %.cc
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
+
+-include $(objects:.o=.d)
+
+clean:
+	rm -f $(prog) $(objects) $(objects:.o=.d)
+
+.PHONY: all clean
