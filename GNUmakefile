@@ -8,7 +8,7 @@ CXXFLAGS=-pthread -MMD -MP
 LDFLAGS=-pthread
 LDLIBS=-lX11 -lfltk
 
-objects=main.o lawn.o mole.o lawnimp.o thread.o hw1/deq.o
+objects=main.o lawn.o mole.o lawnimp.o mtq.o thread.o hw1/deq.o
 
 all: $(prog)
 

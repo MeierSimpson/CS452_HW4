@@ -1,5 +1,7 @@
-main.o: main.c hw1/deq.h lawn.h mole.h thread.h
-hw1/deq.h:
+main.o: main.c error.h lawn.h mole.h mtq.h hw1/deq.h thread.h
+error.h:
 lawn.h:
 mole.h:
+mtq.h:
+hw1/deq.h:
 thread.h:
