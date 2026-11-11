@@ -6,13 +6,21 @@
 #include "deq.h"
 #include "lawn.h"
 #include "mole.h"
+#include "thread.h"
  
-static void produce(Deq q, Lawn l) {
+static void *produce(void *a) {
+  void **arg=a;
+  Deq q=(Deq)arg[0];
+  Lawn l=(Lawn)arg[1];
   deq_tail_put(q, mole_new(l,0,0));
+  return 0;
 }
 
-static void consume(Deq q) {
+static void *consume(void *a) {
+  void **arg=a;
+  Deq q=(Deq)arg[0];
   mole_whack(deq_head_get(q));
+  return 0;
 }
 
 int main() {
@@ -20,10 +28,12 @@ int main() {
   const int n=10;
   Lawn lawn=lawn_new(0,0);
   Deq q=deq_new();
-  for (int i=0; i<n; i++)
-    produce(q,lawn);
-  for (int i=0; i<n; i++)
-    consume(q);
+  void *produce_arg[]={q,lawn};
+  void *consume_arg[]={q};
+  ThreadGroup *producers=thread_group_new(produce,produce_arg,n);
+  thread_group_join(producers);
+  ThreadGroup *consumers=thread_group_new(consume,consume_arg,n);
+  thread_group_join(consumers);
   deq_del(q,0);
   lawn_free(lawn);
 }
